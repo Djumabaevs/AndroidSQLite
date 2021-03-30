@@ -12,6 +12,9 @@ import com.example.myapplication.R;
 import com.example.myapplication.model.Contact;
 import com.example.myapplication.util.Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 
@@ -67,5 +70,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contact.setPhoneNumber(cursor.getString(2));
 
         return contact;
+    }
+    public List<Contact> getAllContacts() {
+        List<Contact> contactList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectAll = "SELECT * FROM " + Util.TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectAll, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                Contact contact = new Contact();
+                contact.setId(Integer.parseInt(cursor.getString(0)));
+                contact.setName(cursor.getString(1));
+                contact.setPhoneNumber(cursor.getString(2));
+
+                contactList.add(contact);
+            } while(cursor.moveToNext());
+        }
+        return contactList;
     }
 }
