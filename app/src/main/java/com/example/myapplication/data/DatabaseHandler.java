@@ -57,5 +57,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(Util.TABLE_NAME, new String[]{Util.KEY_ID, Util.KEY_NAME, Util.KEY_PHONE_NUMBER},
                 Util.KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
 
+        if(cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        Contact contact = new Contact();
+        contact.setId(Integer.parseInt(cursor.getString(0)));
+        contact.setName((cursor.getString(1)));
+        contact.setPhoneNumber(cursor.getString(2));
+
+        return contact;
     }
 }
