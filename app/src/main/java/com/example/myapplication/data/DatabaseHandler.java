@@ -110,4 +110,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(contact.getId())});
         db.close();
     }
+    public int getCount() {
+        String countQuery = "SELECT * FROM " + Util.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        return cursor.getCount();
+    }
 }
